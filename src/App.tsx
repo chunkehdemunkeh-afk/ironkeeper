@@ -20,6 +20,8 @@ import ExerciseLibrary from "./pages/ExerciseLibrary";
 import BodyMeasurements from "./pages/BodyMeasurements";
 import CoachDashboard from "./pages/CoachDashboard";
 import NotFound from "./pages/NotFound";
+import Onboarding from "./pages/Onboarding";
+import { isOnboardingComplete } from "@/lib/user-preferences";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +70,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/login" element={<PageWrapper><LoginGuard /></PageWrapper>} />
+        <Route path="/onboarding" element={<PageWrapper><ProtectedRoute><Onboarding /></ProtectedRoute></PageWrapper>} />
         <Route path="/" element={<PageWrapper><ProtectedRoute><RoleBasedHome /></ProtectedRoute></PageWrapper>} />
         <Route path="/coach" element={<PageWrapper><ProtectedRoute><CoachDashboard /></ProtectedRoute></PageWrapper>} />
         <Route path="/sessions" element={<PageWrapper><ProtectedRoute><Sessions /></ProtectedRoute></PageWrapper>} />
@@ -86,6 +89,7 @@ const AnimatedRoutes = () => {
 
 function RoleBasedHome() {
   const { isCoach, roleLoading } = useUserRole();
+  const { user } = useAuth();
   if (roleLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -94,6 +98,8 @@ function RoleBasedHome() {
     );
   }
   if (isCoach) return <Navigate to="/coach" replace />;
+  // First-time users → onboarding
+  if (user && !isOnboardingComplete(user.id)) return <Navigate to="/onboarding" replace />;
   return <Index />;
 }
 
