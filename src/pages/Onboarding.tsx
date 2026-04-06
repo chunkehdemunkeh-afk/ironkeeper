@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, ChevronLeft, Check, Shuffle, Dumbbell } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -36,6 +36,8 @@ const ASSIGNABLE_WORKOUTS = WORKOUTS.filter((w) =>
 export default function Onboarding() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromProfile = new URLSearchParams(location.search).get("from") === "profile";
 
   const [step, setStep] = useState(0); // 0=days, 1=split, 2=custom, 3=summary
   const [days, setDays] = useState<number | null>(null);
@@ -83,8 +85,8 @@ export default function Onboarding() {
       splitName: selectedSplit.name,
       schedule,
     });
-    toast.success("Programme saved! Let's get to work 💪");
-    navigate("/", { replace: true });
+    toast.success(fromProfile ? "Training split updated! 💪" : "Programme saved! Let's get to work 💪");
+    navigate(fromProfile ? "/profile" : "/", { replace: true });
   };
 
   const canGoNext =
@@ -126,7 +128,7 @@ export default function Onboarding() {
               splitName: "Push / Pull / Legs",
               schedule: TRAINING_SPLITS[0].schedule.map(({ label, workoutId }) => ({ label, workoutId })),
             });
-            navigate("/", { replace: true });
+            navigate(fromProfile ? "/profile" : "/", { replace: true });
           }}
           className="text-xs text-muted-foreground hover:text-foreground transition-colors"
         >

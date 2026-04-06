@@ -1,10 +1,12 @@
 import { useAuth } from "@/hooks/useAuth";
 import { fetchWorkoutHistory } from "@/lib/cloud-data";
-import { Flame, Target, Award, LogOut, Scale, BookOpen, Shield, User } from "lucide-react";
+import { Flame, Target, Award, LogOut, Scale, BookOpen, Shield, User, Settings2, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import RecoveryTips from "@/components/RecoveryTips";
 import { useQuery } from "@tanstack/react-query";
+import { getUserPreferences } from "@/lib/user-preferences";
+import { WORKOUTS } from "@/lib/workout-data";
 
 export default function Profile() {
   const { user, profile, signOut } = useAuth();
@@ -18,6 +20,8 @@ export default function Profile() {
 
   const totalWorkouts = history.length;
   const totalMinutes = history.reduce((s, w) => s + (w.duration || 0), 0);
+
+  const prefs = user ? getUserPreferences(user.id) : null;
 
   const handleSignOut = async () => {
     await signOut();
@@ -93,27 +97,57 @@ export default function Profile() {
           </motion.button>
         </div>
 
-        {/* Programme info */}
+        {/* Training split card */}
         <div className="glass-card rounded-xl p-4 space-y-3">
-          <h3 className="font-display text-sm font-semibold">Training Programme</h3>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Programme</span>
-              <span className="font-medium text-foreground">IronKeeper GK v2</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Days/Week</span>
-              <span className="font-medium text-foreground">4 gym + 2 football</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Intensity</span>
-              <span className="font-medium text-primary">60-75% effort</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Focus</span>
-              <span className="font-medium text-foreground">Goalkeeper Development</span>
-            </div>
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-sm font-semibold">Training Split</h3>
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/onboarding?from=profile")}
+              className="flex items-center gap-1 text-xs text-primary bg-primary/10 rounded-full px-2.5 py-1 hover:bg-primary/20 transition-colors"
+            >
+              <Settings2 className="h-3 w-3" />
+              {prefs ? "Change" : "Set up"}
+            </motion.button>
           </div>
+
+          {prefs ? (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Split</span>
+                <span className="font-medium text-foreground">{prefs.splitName}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Days/Week</span>
+                <span className="font-medium text-foreground">{prefs.daysPerWeek} days</span>
+              </div>
+              <div className="h-px bg-border/50" />
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {prefs.schedule.map((day, i) => {
+                  const workout = WORKOUTS.find((w) => w.id === day.workoutId);
+                  const Icon = workout?.icon;
+                  return (
+                    <div key={i} className="flex items-center gap-1 rounded-full bg-muted/50 px-2.5 py-1 text-[11px] font-medium text-muted-foreground">
+                      {Icon && <Icon className="h-2.5 w-2.5" />}
+                      {day.label}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={() => navigate("/onboarding?from=profile")}
+              className="w-full flex items-center justify-between rounded-xl bg-primary/10 border border-primary/20 px-4 py-3 text-left hover:bg-primary/15 transition-colors"
+            >
+              <div>
+                <p className="text-sm font-semibold text-foreground">Set up your training split</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5">Personalise your session recommendations</p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-primary flex-shrink-0" />
+            </motion.button>
+          )}
         </div>
 
         <RecoveryTips />
