@@ -138,7 +138,7 @@ export const WORKOUTS: WorkoutDay[] = [
       { id: "pl1", name: "Seated Row Machine", sets: 3, reps: "8-10", targetMuscle: "Mid Back" },
       { id: "pl2", name: "T-Bar Row", sets: 3, reps: "8-10", targetMuscle: "Back Thickness" },
       { id: "pl3", name: "Lat Pull Down - Pronated Grip", sets: 3, reps: "8-10", targetMuscle: "Lats", notes: "Previous weight: 41kg" },
-      { id: "pl4", name: "Single Arm Cross Body Reverse Fly", sets: 3, reps: "8-10", targetMuscle: "Rear Delts" },
+      { id: "pl4", name: "Face Pulls with Rope", sets: 3, reps: "8-10", targetMuscle: "Rear Delts", notes: "High pull, external rotate at top, squeeze shoulder blades" },
       { id: "pl5", name: "Dumbbell Preacher Curls", sets: 3, reps: "8-10", targetMuscle: "Biceps" },
       { id: "pl6", name: "Dumbbell Preacher Hammer Curls", sets: 2, reps: "8-10", targetMuscle: "Biceps" },
     ],
@@ -153,7 +153,7 @@ export const WORKOUTS: WorkoutDay[] = [
     exercises: [
       { id: "lg1", name: "Seated Hamstring Curl", sets: 3, reps: "8-10", targetMuscle: "Hamstrings" },
       { id: "lg2", name: "Dumbbell RDL", sets: 3, reps: "8-10", targetMuscle: "Hamstrings/Glutes" },
-      { id: "lg3", name: "Weighted Lunges", sets: 3, reps: "8-10", targetMuscle: "Quads/Glutes" },
+      { id: "lg3", name: "Bulgarian Split Squats", sets: 3, reps: "8-10 each", targetMuscle: "Quads/Glutes", notes: "Rear foot elevated, control the descent" },
       { id: "lg4", name: "Pendulum Squat", sets: 3, reps: "8-10", targetMuscle: "Quads" },
       { id: "lg5", name: "Leg Extension", sets: 3, reps: "8-10", targetMuscle: "Quads" },
       { id: "lg6", name: "Standing Calf Raise", sets: 3, reps: "8-10", targetMuscle: "Calves" },

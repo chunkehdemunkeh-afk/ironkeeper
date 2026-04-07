@@ -160,9 +160,9 @@ export const EXERCISE_SUBSTITUTIONS: Record<string, SubstituteExercise[]> = {
     { id: "sub-pl3a", name: "Lat Pull Down - Supinated Grip", targetMuscle: "Lats", notes: "Underhand grip, pull to upper chest, squeeze lats", description: "Supinated (underhand) lat pulldown" },
     { id: "sub-pl3b", name: "Straight-Arm Pulldown", targetMuscle: "Lats", notes: "Arms straight, pull bar to thighs, feel lats stretch", description: "Cable straight-arm lat pulldown" },
   ],
-  pl4: [ // Single Arm Cross Body Reverse Fly
-    { id: "sub-pl4a", name: "Cable Reverse Fly", targetMuscle: "Rear Delts", notes: "Both arms, cables crossed, fly out to sides", description: "Dual cable reverse fly" },
-    { id: "sub-pl4b", name: "Bent-Over Dumbbell Reverse Fly", targetMuscle: "Rear Delts", notes: "Hinged forward, raise dumbbells to sides", description: "Bent-over dumbbell rear delt fly" },
+  pl4: [ // Face Pulls with Rope
+    { id: "sub-pl4a", name: "Band Pull-Apart", targetMuscle: "Rear Delts", notes: "Pull band apart at chest height, squeeze shoulder blades", trackWeight: false, repLabel: "Reps", description: "Resistance band horizontal pull-apart" },
+    { id: "sub-pl4b", name: "Single Arm Cross Body Reverse Fly", targetMuscle: "Rear Delts", notes: "Cable at mid height, pull across body to rear delt", description: "Single-arm cable cross-body reverse fly" },
   ],
   pl5: [ // Dumbbell Preacher Curls
     { id: "sub-pl5a", name: "EZ Bar Preacher Curl", targetMuscle: "Biceps", notes: "EZ bar on preacher bench, full range of motion", description: "EZ bar preacher curl" },
@@ -182,7 +182,7 @@ export const EXERCISE_SUBSTITUTIONS: Record<string, SubstituteExercise[]> = {
     { id: "sub-lg2a", name: "Dumbbell RDL", targetMuscle: "Hamstrings/Glutes", notes: "Dumbbells along legs, hinge at hips", description: "Romanian deadlift with dumbbells" },
     { id: "sub-lg2b", name: "Trap Bar RDL", targetMuscle: "Hamstrings/Glutes", notes: "Trap/hex bar, hinge pattern, neutral grip", description: "Trap bar Romanian deadlift" },
   ],
-  lg3: [ // DB Split Squat - Bilateral
+  lg3: [ // Bulgarian Split Squats
     { id: "sub-lg3a", name: "Walking Lunges (DB)", targetMuscle: "Quads/Glutes", notes: "Step forward alternating, dumbbells at sides", description: "Dumbbell walking lunges" },
     { id: "sub-lg3b", name: "Reverse Lunge (DB)", targetMuscle: "Quads/Glutes", notes: "Step back into lunge, drive through front heel", description: "Dumbbell reverse lunge" },
   ],
