@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { WORKOUTS, type CompletedWorkout } from "@/lib/workout-data";
 import { getAllCustomWorkouts } from "@/pages/WorkoutBuilder";
 import { saveWorkoutToCloud, fetchLastSessionData, fetchExerciseLastData } from "@/lib/cloud-data";
-import { ArrowLeft, Check, Timer, ChevronDown, ChevronUp, Trophy, Play, RotateCcw, TrendingUp, TrendingDown, GripVertical, Shuffle, Star, MessageSquare, Plus, Trash2, Flame, Grip } from "lucide-react";
+import { ArrowLeft, Check, Timer, ChevronDown, ChevronUp, Trophy, Play, RotateCcw, TrendingUp, TrendingDown, GripVertical, Shuffle, Star, MessageSquare, Plus, Trash2, Flame, Grip, History } from "lucide-react";
 import { motion, AnimatePresence, Reorder, useDragControls, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { toast } from "sonner";
 import RestTimer from "@/components/RestTimer";
@@ -767,6 +767,14 @@ export default function WorkoutSession() {
           <button onClick={() => { saveSessionToStorage(); navigate("/sessions"); }} className="text-muted-foreground p-2 -m-2 active:bg-muted/50 rounded-lg transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </button>
+          <button
+            onClick={() => { saveSessionToStorage(); navigate(`/history?workout=${workout?.id}`); }}
+            className="flex items-center gap-1 text-xs font-medium text-muted-foreground bg-card border border-border/50 rounded-full px-2.5 py-1.5 active:bg-muted/50 transition-colors"
+            title="View past sessions"
+          >
+            <History className="h-3.5 w-3.5" />
+            <span>History</span>
+          </button>
           <div className="flex items-center gap-2 rounded-full bg-card px-3 py-1.5 border border-border/50">
             <Timer className="h-3.5 w-3.5 text-primary" />
             <span className="font-display text-sm font-bold tabular-nums">{formatTime(elapsed)}</span>
@@ -787,6 +795,8 @@ export default function WorkoutSession() {
             <option value={180}>3m</option>
           </select>
         </div>
+
+
 
         {/* Progress bar */}
         <div className="h-1.5 rounded-full bg-muted overflow-hidden">
