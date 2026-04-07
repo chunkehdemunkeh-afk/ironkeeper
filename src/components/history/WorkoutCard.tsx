@@ -130,14 +130,22 @@ export default function WorkoutCard({ workout: w, icon: Icon, onDelete, isDeleti
                 groupedSets.map(([name, sets], exIdx) => (
                   <div key={name} className="glass-card rounded-xl overflow-hidden">
                     {/* Exercise header */}
-                    <div className="flex items-center gap-2.5 px-3 py-2.5">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-success/20 text-success text-[10px] font-bold flex-shrink-0">
-                        <Check className="h-3 w-3" />
-                      </span>
-                      <p className="text-sm font-medium text-foreground flex-1">{name}</p>
-                      <span className="text-[10px] text-muted-foreground bg-muted/50 rounded-md px-1.5 py-0.5">
-                        {sets.length} {sets.length === 1 ? "set" : "sets"}
-                      </span>
+                    <div className="px-3 py-2.5">
+                      <div className="flex items-center gap-2.5">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-md bg-success/20 text-success text-[10px] font-bold flex-shrink-0">
+                          <Check className="h-3 w-3" />
+                        </span>
+                        <p className="text-sm font-medium text-foreground flex-1">{name}</p>
+                        <span className="text-[10px] text-muted-foreground bg-muted/50 rounded-md px-1.5 py-0.5">
+                          {sets.length} {sets.length === 1 ? "set" : "sets"}
+                        </span>
+                      </div>
+                      {(() => {
+                        const ex = getExerciseMeta(sets[0].exerciseId);
+                        return ex?.notes ? (
+                          <p className="text-[11px] text-muted-foreground mt-1.5 ml-[34px] leading-relaxed">{ex.notes}</p>
+                        ) : null;
+                      })()}
                     </div>
 
                     {/* Column headers */}
