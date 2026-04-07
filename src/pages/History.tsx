@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { fetchWorkoutHistory, deleteWorkoutFromCloud, exportWorkoutHistoryCSV, exportSetsCSV } from "@/lib/cloud-data";
 import { WORKOUTS, type CompletedWorkout } from "@/lib/workout-data";
 import { Calendar as CalendarIcon, Clock, Dumbbell, TrendingUp, Download, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
@@ -10,12 +11,13 @@ import WorkoutCard from "@/components/history/WorkoutCard";
 import SummaryCards from "@/components/history/SummaryCards";
 
 export default function History() {
+  const [searchParams] = useSearchParams();
   const [history, setHistory] = useState<CompletedWorkout[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [filterWorkoutId, setFilterWorkoutId] = useState<string | null>(null);
+  const [filterWorkoutId, setFilterWorkoutId] = useState<string | null>(searchParams.get("workout") || null);
 
   useEffect(() => {
     fetchWorkoutHistory().then((h) => {
