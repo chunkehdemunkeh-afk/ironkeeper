@@ -23,7 +23,7 @@ export default function DailyStretchCard() {
   // Same query key as NextSessionCard — React Query deduplicates the fetch
   const prefs = user ? getUserPreferences(user.id) : null;
   const gkMode = user ? isGKSplit(user.id) : false;
-  const isDailyStretchUser = user?.id === "a7d17184-57fd-4608-976b-1f97b9ee31b7";
+  const isDailyStretchUser = user?.id === "7dac1761-76f7-4b4a-a4f0-e88297247037";
   const { data: history = [] } = useQuery({
     queryKey: ["workout-history", user?.id],
     queryFn: fetchWorkoutHistory,
