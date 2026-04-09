@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, Play, ExternalLink, Timer, Check, StretchHorizontal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { getUserPreferences, getNextSplitDay } from "@/lib/user-preferences";
+import { getUserPreferences, getNextSplitDay, isGKSplit } from "@/lib/user-preferences";
 import { fetchWorkoutHistory } from "@/lib/cloud-data";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
