@@ -1,23 +1,13 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import fs from "fs";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 
-// Auto-bump version.json on every production build
-function autoBumpVersion() {
-  return {
-    name: "auto-bump-version",
-    buildStart() {
-      const versionFile = path.resolve(__dirname, "public/version.json");
-      const buildTime = new Date().toISOString();
-      // Use timestamp as version to guarantee uniqueness per build
-      const version = `1.0.${Date.now()}`;
-      fs.writeFileSync(versionFile, JSON.stringify({ version, buildTime }, null, 2));
-    },
-  };
-}
+// NOTE: autoBumpVersion is intentionally removed.
+// Lovable's deployment pipeline does not run local Vite plugins on buildStart,
+// so the version.json was never actually updated. We now rely on the
+// service worker's autoUpdate + skipWaiting strategy instead.
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -31,14 +21,13 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === "development" && componentTagger(),
-    mode === "production" && autoBumpVersion(),
     VitePWA({
-      registerType: "prompt",
+      registerType: "autoUpdate",
       includeAssets: ["favicon.ico"],
       workbox: {
         navigateFallbackDenylist: [/^\/~oauth/],
         clientsClaim: true,
-        skipWaiting: false,
+        skipWaiting: true,   // new SW takes control immediately on deploy
       },
       manifest: {
         name: "Iron Keeper",

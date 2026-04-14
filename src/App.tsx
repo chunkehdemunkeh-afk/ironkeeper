@@ -133,22 +133,38 @@ const App = () => {
   const handleSplashComplete = useCallback(() => setSplashDone(true), []);
 
   useEffect(() => {
+    // Strategy 1: version.json poll on app open
+    // Reloads if the server's version.json has a newer version than what's stored locally.
     const checkForUpdate = async () => {
       try {
         const res = await fetch(`/version.json?t=${Date.now()}`);
         const { version } = await res.json();
-        const installed = localStorage.getItem('ik-version');
+        const installed = localStorage.getItem("ik-version");
         if (installed && installed !== version) {
-          localStorage.setItem('ik-version', version);
+          localStorage.setItem("ik-version", version);
           window.location.reload();
         } else {
-          localStorage.setItem('ik-version', version);
+          localStorage.setItem("ik-version", version);
         }
-      } catch (e) {
+      } catch {
         // Offline or version.json missing — skip
       }
     };
     checkForUpdate();
+
+    // Strategy 2: Service Worker controllerchange listener
+    // Fires when a new SW takes control (skipWaiting:true causes this immediately after install).
+    // This is the reliable signal that a fresh deploy is running — reload to get it.
+    let refreshing = false;
+    const onControllerChange = () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    };
+    navigator.serviceWorker?.addEventListener("controllerchange", onControllerChange);
+    return () => {
+      navigator.serviceWorker?.removeEventListener("controllerchange", onControllerChange);
+    };
   }, []);
 
   return (
